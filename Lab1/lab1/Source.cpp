@@ -65,7 +65,10 @@ void Display4() {
 	glColor3f(1, 0.1, 0.1); // rosu
 	// trasare linie poligonala GL_LINE_STRIP : (v0,v1), (v1,v2), (v_{n-2},v_{n-1})
 	glBegin(GL_LINE_STRIP);
-	// de completat ...
+	glVertex2f(1, 1);
+	glVertex2f(1, 0.8);
+	glVertex2f(0.6, 0.6);
+	glVertex2f(0.6, 0.4);
 	glEnd();
 }
 
@@ -87,7 +90,12 @@ void Display6() {
 	glColor3f(1, 0.1, 0.1); // rosu
 	// trasare triunghiuri GL_TRIANGLES : (v0,v1,v2), (v3,v4,v5), ...
 	glBegin(GL_TRIANGLES);
-	// de completat ...
+	glVertex2f(1, 1);
+	glVertex2f(1, 0.8);
+	glVertex2f(0.8, 0.8);
+	glVertex2f(-1, -1);
+	glVertex2f(-1, -0.8);
+	glVertex2f(-0.8, -0.8);
 	glEnd();
 }
 
@@ -107,7 +115,34 @@ void Display8() {
 	// Calin
 	// trasare poligon convex GL_QUADS : (v0,v1,v2, ..., v_{n-1})
 	glBegin(GL_POLYGON);
-	// de completat ...
+	glColor3f(0.2, 0.15, 0.88);
+	glVertex2f(0.8, 0);
+	glVertex2f(0.4, 0.7);
+	glVertex2f(-0.4, 0.7);
+	glVertex2f(-0.8, 0);
+	glVertex2f(-0.4, -0.7);
+	glVertex2f(0.4, -0.7);
+	glEnd();
+
+	glColor3f(1, 1, 1);
+	glBegin(GL_POLYGON);
+	glVertex2f(0.57, 0);
+	glVertex2f(0.25, 0.55);
+	glVertex2f(-0.25, 0.55);
+	glVertex2f(-0.57, 0);
+	glVertex2f(-0.25, -0.55);
+	glVertex2f(0.25, -0.55);
+	glEnd();
+
+	glPolygonMode(GL_FRONT, GL_LINE);
+	glColor3f(1, 0.1, 0.1);
+	glBegin(GL_POLYGON);
+	glVertex2f(0.57, 0);
+	glVertex2f(0.25, 0.55);
+	glVertex2f(-0.25, 0.55);
+	glVertex2f(-0.57, 0);
+	glVertex2f(-0.25, -0.55);
+	glVertex2f(0.25, -0.55);
 	glEnd();
 }
 
