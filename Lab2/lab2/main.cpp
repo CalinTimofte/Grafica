@@ -81,7 +81,7 @@ void Display2() {
 	double xmax = 8 * pi;
 	double ymax = exp(1);
 	double ratia = 0.05;
-	
+
 	// afisarea punctelor propriu-zise precedata de scalare
 	glColor3f(1, 0.1, 0.1); // rosu
 	glBegin(GL_LINE_STRIP);
@@ -121,7 +121,6 @@ void Display3() {
 
 //melcul lui Pascal
 void Display4() {
-	//to do: umplut spatiu intre cele doua curbe
 	//to do: xmax si ymax
 
 	double pi = 4 * atan(1.0);
@@ -137,6 +136,18 @@ void Display4() {
 		glVertex2f(x, y);
 	}
 	glEnd();
+
+	glBegin(GL_LINE_STRIP);
+	double t = -pi + ratia;
+	double x = 2 * (a * cos(t) + b) * cos(t);
+	double y = 2 * (a * cos(t) + b) * sin(t);
+	glVertex2f(x, y);
+
+	t = pi - ratia;
+	x = 2 * (a * cos(t) + b) * cos(t);
+	y = 2 * (a * cos(t) + b) * sin(t);
+	glVertex2f(x, y);
+	glEnd();
 }
 
 //Trisectoarea lui Longchamps
@@ -147,6 +158,7 @@ void Display5() {
 //Cicloida
 void Display6() {
 	//to do maybe?? xmax ymax, why 3*pi and -3 * pi??
+	//circumferinta cercului trigonometric = 2pi?
 
 	double pi = 4 * atan(1.0);
 	double ratia = 0.05;
