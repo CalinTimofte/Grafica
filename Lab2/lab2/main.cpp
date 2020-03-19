@@ -101,7 +101,6 @@ void Display3() {
 
 	double ratia = 0.05;
 	double xmax = 20;
-	double ymax = 1;
 
 		glColor3f(1, 0.1, 0.1);
 		glBegin(GL_LINE_STRIP);
