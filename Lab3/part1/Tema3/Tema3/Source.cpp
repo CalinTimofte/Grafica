@@ -180,10 +180,8 @@ private:
 };
 
 class CMandelbrot {
-private:
-    int nr_max_iter, limit;
 public:
-    CMandelbrot() : nr_max_iter(NRITER_JF), limit(2);
+    CMandelbrot() : nr_max_iter(NRITER_JF), limit(2) {};
 
     int isIn(CComplex& c) {
         int rez = 0;
@@ -241,6 +239,12 @@ public:
 
         glPopMatrix();
     }
+
+    void setNrMaxIter(int v) { assert(v <= NRITER_JF); nr_max_iter = v; }
+    int getNrMaxIter() { return nr_max_iter; }
+
+private:
+    int nr_max_iter, limit;
 };
 
 // multimea Julia-Fatou pentru z0 = 0 si c = -0.12375+0.056805i
@@ -265,6 +269,7 @@ void Display2() {
 
 void Display3() {
     CMandelbrot man;
+    man.setlimit(30);
 
     glColor3f(1.0, 0.1, 0.1);
     man.display(-2, -2, 2, 2);

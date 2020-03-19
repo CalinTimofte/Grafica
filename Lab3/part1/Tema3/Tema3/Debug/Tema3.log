@@ -1,12 +1,6 @@
 ﻿  Source.cpp
-D:\Work\Grafica\Git\Grafica\Lab3\part1\Tema3\Tema3\Source.cpp(186,53): error C2969: syntax error: ';': expected member function definition to end with '}'
-D:\Work\Grafica\Git\Grafica\Lab3\part1\Tema3\Tema3\Source.cpp(188,27): error C2059: syntax error: 'inline function header'
-D:\Work\Grafica\Git\Grafica\Lab3\part1\Tema3\Tema3\Source.cpp(188,27): error C2630: ';' found in what should be a comma-separated list
-D:\Work\Grafica\Git\Grafica\Lab3\part1\Tema3\Tema3\Source.cpp(196,28): error C2065: 'c': undeclared identifier
-D:\Work\Grafica\Git\Grafica\Lab3\part1\Tema3\Tema3\Source.cpp(197,1): error C3867: 'CComplex::getModul': non-standard syntax; use '&' to create a pointer to member
-D:\Work\Grafica\Git\Grafica\Lab3\part1\Tema3\Tema3\Source.cpp(197,1): error C2446: '>': no conversion from 'int' to 'double (__thiscall CComplex::* )(void)'
-D:\Work\Grafica\Git\Grafica\Lab3\part1\Tema3\Tema3\Source.cpp(197,31): message : There are no conversions from integral values to pointer-to-member values
-D:\Work\Grafica\Git\Grafica\Lab3\part1\Tema3\Tema3\Source.cpp(207,1): error C2534: 'CMandelbrot': constructor cannot return a value
+D:\Work\Grafica\Git\Grafica\Lab3\part1\Tema3\Tema3\Source.cpp(195,1): error C3867: 'CComplex::getModul': non-standard syntax; use '&' to create a pointer to member
+D:\Work\Grafica\Git\Grafica\Lab3\part1\Tema3\Tema3\Source.cpp(195,1): error C2446: '>': no conversion from 'int' to 'double (__thiscall CComplex::* )(void)'
+D:\Work\Grafica\Git\Grafica\Lab3\part1\Tema3\Tema3\Source.cpp(195,31): message : There are no conversions from integral values to pointer-to-member values
+D:\Work\Grafica\Git\Grafica\Lab3\part1\Tema3\Tema3\Source.cpp(272,17): error C2039: 'setlimit': is not a member of 'CMandelbrot'
 D:\Work\Grafica\Git\Grafica\Lab3\part1\Tema3\Tema3\Source.cpp(182): message : see declaration of 'CMandelbrot'
-D:\Work\Grafica\Git\Grafica\Lab3\part1\Tema3\Tema3\Source.cpp(207,1): error C2562: 'CMandelbrot::CMandelbrot': 'void' function returning a value
-D:\Work\Grafica\Git\Grafica\Lab3\part1\Tema3\Tema3\Source.cpp(186): message : see declaration of 'CMandelbrot::CMandelbrot'
