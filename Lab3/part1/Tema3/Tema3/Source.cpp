@@ -191,8 +191,8 @@ public:
         z0 = CComplex();
         for (int i = 1; i < nr_max_iter; i++)
         {
-            z1 = z0 * z0 + c;
-            if (z1.getModul > 2)
+            z1 = z0.pow2() + c;
+            if (z1.getModul() > 2.0)
             {
                 // x nu apartine Mandelbrot
                 rez = -1;
@@ -210,12 +210,12 @@ public:
         glPushMatrix();
         glLoadIdentity();
 
-        //    glTranslated((xmin + xmax) * 1.0 / (xmin - xmax), (ymin + ymax)  * 1.0 / (ymin - ymax), 0);
-        //    glScaled(1.0 / (xmax - xmin), 1.0 / (ymax - ymin), 1);
+        glTranslated((xmin + xmax) * 1.0 / (xmin - xmax), (ymin + ymax)  * 1.0 / (ymin - ymax), 0);
+        glScaled(1.0 / ((xmax - xmin)/2), 1.0 / ((ymax - ymin)/2), 1);
             // afisarea propriu-zisa
         glBegin(GL_POINTS);
-        for (double x = xmin; x <= xmax; x += RX_JF)
-            for (double y = ymin; y <= ymax; y += RY_JF)
+        for (double x = xmin; x <= xmax; x += 0.005)
+            for (double y = ymin; y <= ymax; y += 0.005)
             {
                 CComplex z(x, y);
                 int r = isIn(z);
@@ -269,10 +269,10 @@ void Display2() {
 
 void Display3() {
     CMandelbrot man;
-    man.setlimit(30);
-
+    
     glColor3f(1.0, 0.1, 0.1);
-    man.display(-2, -2, 2, 2);
+	man.setNrMaxIter(12);
+	man.display(-2, -2, 2, 2);
 }
 
 void Init(void) {
