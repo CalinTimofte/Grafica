@@ -354,6 +354,229 @@ public:
     }
 };
 
+class Imagine1 {
+public:
+    void imagine1(double lungime, int nivel, CPunct& p, CVector& v) {
+        CPunct p1;
+
+        if (nivel == 1)
+        {
+            p = v.getDest(p, lungime / 3.0);
+            v.rotatie(90);
+            p = v.getDest(p, 2 * (lungime / 3.0));
+            v.rotatie(-90);
+            draw_square(lungime, p, v);
+
+            p = v.getDest(p, lungime);
+            draw_square(lungime, p, v);
+
+            for (int i = 0; i < 2; i++) {
+                v.rotatie(-90);
+                p = v.getDest(p, lungime);
+                v.rotatie(90);
+                draw_square(lungime, p, v);
+            }
+
+            for (int i = 0; i < 2; i++) {
+                v.rotatie(-180);
+                p = v.getDest(p, lungime);
+                v.rotatie(180);
+                draw_square(lungime, p, v);
+            }
+
+            for (int i = 0; i < 2; i++) {
+                v.rotatie(90);
+                p = v.getDest(p, lungime);
+                v.rotatie(-90);
+                draw_square(lungime, p, v);
+            }
+
+            p = v.getDest(p, lungime);
+        }
+        else
+        {
+            p = v.getDest(p, lungime / 3.0);
+            v.rotatie(90);
+            p = v.getDest(p, 2 * (lungime / 3.0));
+            v.rotatie(-90);
+            p1 = p;
+            draw_square(lungime, p, v);
+            imagine1(lungime / 3.0, nivel - 1, p, v);
+            p = p1;
+
+            p = v.getDest(p, lungime);
+            p1 = p;
+            draw_square(lungime, p, v);
+            imagine1(lungime / 3.0, nivel - 1, p, v);
+            p = p1;
+
+            for (int i = 0; i < 2; i++) {
+                v.rotatie(-90);
+                p = v.getDest(p, lungime);
+                v.rotatie(90);
+                p1 = p;
+                draw_square(lungime, p, v);
+                imagine1(lungime / 3.0, nivel - 1, p, v);
+                p = p1;
+            }
+
+            for (int i = 0; i < 2; i++) {
+                v.rotatie(-180);
+                p = v.getDest(p, lungime);
+                v.rotatie(180);
+                p1 = p;
+                draw_square(lungime, p, v);
+                imagine1(lungime / 3.0, nivel - 1, p, v);
+                p = p1;
+            }
+
+            for (int i = 0; i < 2; i++) {
+                v.rotatie(90);
+                p = v.getDest(p, lungime);
+                v.rotatie(-90);
+                p1 = p;
+                draw_square(lungime, p, v);
+                imagine1(lungime / 3.0, nivel - 1, p, v);
+                p = p1;
+            }
+
+            p = v.getDest(p, lungime);
+        }
+    }
+
+    void draw_square(double lungime, CPunct& p, CVector& v) {
+        for (int i = 0; i < 4; i++) {
+            v.deseneaza(p, lungime / 3);
+            p = v.getDest(p, lungime / 3);
+            v.rotatie(-90);
+        }
+    }
+
+    void afisare(double lungime, int nivel) {
+        CVector v(0.0, 1.0);
+        CPunct p(-0.75, -0.75);
+
+        //desenarea patratului exterior
+        for (int i = 0; i < 4; i++) {
+            v.deseneaza(p, lungime);
+            p = v.getDest(p, lungime);
+            v.rotatie(-90);
+        }
+
+        //tranzitia spre patratul interior
+        //v.rotatie(-90);
+        //v.deseneaza(p, lungime/3.0);
+        p = v.getDest(p, lungime/3.0);
+        v.rotatie(-90);
+        //v.deseneaza(p, lungime / 3.0);
+        p = v.getDest(p, lungime / 3.0);
+        v.rotatie(90);
+
+        for (int i = 0; i < 4; i++) {
+            v.deseneaza(p, lungime/3);
+            p = v.getDest(p, lungime/3);
+            v.rotatie(-90);
+        }
+
+        if (nivel >= 1) {
+            imagine1(lungime / 3, nivel, p, v);
+        }
+    }
+};
+
+class Imagine2 {
+public:
+public:
+    void imagine2(double lungime,
+        int nivel,
+        double factordiviziune,
+        CPunct p,
+        CVector v)
+    {
+        assert(factordiviziune != 0);
+        CPunct p1, p2;
+        if (nivel == 0)
+        {
+        }
+        else
+        {
+            v.rotatie(-45);
+            v.deseneaza(p, lungime);
+            p1 = v.getDest(p, lungime);
+            imagine2(lungime * factordiviziune, nivel - 1, factordiviziune, p1, v);
+
+            v.rotatie(90);
+            v.deseneaza(p, lungime);
+            p1 = v.getDest(p, lungime);
+            p2 = p1;
+
+            v.rotatie(15);
+            v.deseneaza(p1, lungime);
+            p1 = v.getDest(p1, lungime);
+            imagine2(lungime * factordiviziune, nivel - 1, factordiviziune, p1, v);
+
+            p1 = p2;
+            v.rotatie(-60);
+            v.deseneaza(p1, lungime);
+            p1 = v.getDest(p1, lungime);
+            p2 = p1;
+
+            v.rotatie(-90);
+            v.deseneaza(p1, lungime*factordiviziune);
+            p1 = v.getDest(p1, lungime * factordiviziune);
+            imagine2(lungime * factordiviziune, nivel - 1, factordiviziune, p1, v);
+
+            p1 = p2;
+            v.rotatie(120);
+            v.deseneaza(p1, lungime*factordiviziune);
+            p1 = v.getDest(p1, lungime * factordiviziune);
+            imagine2(lungime * factordiviziune, nivel - 1, factordiviziune, p1, v);
+        }
+    }
+
+    void afisare(double lungime, int nivel)
+    {
+        CVector v(0.0, 1.0);
+        CPunct p(0.0, 1.0);
+
+        v.rotatie(180);
+        v.deseneaza(p, 0.10);
+        p = v.getDest(p, 0.10);
+        imagine2(0.5, nivel, 0.4, p, v);
+    }
+};
+
+class Imagine3
+{
+public:
+    void imagine3(double lungime, int nivel, CPunct& p, CVector& v, int d)
+    {
+        if (nivel == 0)
+        {
+            v.deseneaza(p, lungime);
+        }
+        else
+        {   
+            imagine3(lungime, nivel - 1, p, v, -d);
+            p = v.getDest(p, lungime);
+            v.rotatie(d * 60);
+            imagine3(lungime, nivel - 1, p, v, d);
+            p = v.getDest(p, lungime);
+            v.rotatie(d * 60);
+            imagine3(lungime, nivel - 1, p, v, d);
+        }
+    }
+
+    void afisare(double lungime, int nivel)
+    {
+        CVector v(0.0, 1.0);
+        CPunct p(-0.8, 0.8);
+
+        v.rotatie(-180);
+        imagine3(lungime, nivel, p, v, 1);
+    }
+};
+
 
 
 // afisare curba lui Koch "fulg de zapada"
@@ -501,6 +724,62 @@ void Display4() {
     nivel++;
 }
 
+void Display5() {
+    Imagine1 img1;
+    img1.afisare(1.5, nivel);
+
+    char c[3];
+    sprintf(c, "%2d", nivel);
+    glRasterPos2d(-0.98, -0.98);
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'N');
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'i');
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'v');
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'e');
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'l');
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, '=');
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, c[0]);
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, c[1]);
+    nivel++;
+}
+
+void Display6() {
+    Imagine2 img2;
+    img2.afisare(1, nivel);
+    
+
+    char c[3];
+    sprintf(c, "%2d", nivel);
+    glRasterPos2d(-0.98, -0.98);
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'N');
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'i');
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'v');
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'e');
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'l');
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, '=');
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, c[0]);
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, c[1]);
+    nivel++;
+}
+
+void Display7() {
+    Imagine3 img3;
+    img3.afisare(0.05, nivel);
+
+
+    char c[3];
+    sprintf(c, "%2d", nivel);
+    glRasterPos2d(-0.98, -0.98);
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'N');
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'i');
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'v');
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'e');
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'l');
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, '=');
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, c[0]);
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, c[1]);
+    nivel++;
+}
+
 void Init(void) {
 
     glClearColor(1.0, 1.0, 1.0, 1.0);
@@ -536,6 +815,18 @@ void Display(void)
     case '4':
         glClear(GL_COLOR_BUFFER_BIT);
         Display4();
+        break;
+    case '5':
+        glClear(GL_COLOR_BUFFER_BIT);
+        Display5();
+        break;
+    case '6':
+        glClear(GL_COLOR_BUFFER_BIT);
+        Display6();
+        break;
+    case '7':
+        glClear(GL_COLOR_BUFFER_BIT);
+        Display7();
         break;
     default:
         break;
