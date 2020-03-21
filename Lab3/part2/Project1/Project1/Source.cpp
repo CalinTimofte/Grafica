@@ -7,9 +7,11 @@
 #include <float.h>
 
 #include "glut.h"
+#include <vector>
 
 // dimensiunea ferestrei in pixeli
 #define dim 300
+using namespace std;
 
 unsigned char prevKey;
 int nivel = 0;
@@ -551,19 +553,27 @@ class Imagine3
 public:
     void imagine3(double lungime, int nivel, CPunct& p, CVector& v, int d)
     {
+        vector<int> threshold_arr = { 3, 4, 3, 2, 4, 2};
+        int counter = 1, current_index = 0;
         if (nivel == 0)
         {
             v.deseneaza(p, lungime);
+            p = v.getDest(p, lungime);
         }
         else
-        {   
-            imagine3(lungime, nivel - 1, p, v, -d);
-            p = v.getDest(p, lungime);
-            v.rotatie(d * 60);
-            imagine3(lungime, nivel - 1, p, v, d);
-            p = v.getDest(p, lungime);
-            v.rotatie(d * 60);
-            imagine3(lungime, nivel - 1, p, v, d);
+        {
+            imagine3(lungime, 0, p, v, d);
+            for(int i=1; i< pow(3, nivel); i++){
+                v.rotatie(d * 60);
+                v.deseneaza(p, lungime);
+                p = v.getDest(p, lungime);
+                counter++;
+                if (counter >= threshold_arr[current_index % 6]) {
+                    d = -1 * d;
+                    counter = 0;
+                    current_index++;
+                }
+            }
         }
     }
 
