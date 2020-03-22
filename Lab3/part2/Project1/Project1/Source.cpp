@@ -8,6 +8,7 @@
 
 #include "glut.h"
 #include <vector>
+#include <iostream>
 
 // dimensiunea ferestrei in pixeli
 #define dim 300
@@ -182,22 +183,22 @@ public:
         {
             //    v.print(stderr);
             //    fprintf(stderr, "\n");
-            segmentKoch(lungime / 3.0, nivel - 1, p, v);
+			segmentKoch(lungime / 3.0, nivel - 1, p, v);
             p1 = v.getDest(p, lungime / 3.0);
             v.rotatie(60);
             //    v.print(stderr);
             //    fprintf(stderr, "\n");
-            segmentKoch(lungime / 3.0, nivel - 1, p1, v);
+			segmentKoch(lungime / 3.0, nivel - 1, p1, v);
             p1 = v.getDest(p1, lungime / 3.0);
             v.rotatie(-120);
             //    v.print(stderr);
             //    fprintf(stderr, "\n");
-            segmentKoch(lungime / 3.0, nivel - 1, p1, v);
+			segmentKoch(lungime / 3.0, nivel - 1, p1, v);
             p1 = v.getDest(p1, lungime / 3.0);
             v.rotatie(60);
             //    v.print(stderr);
             //    fprintf(stderr, "\n");
-            segmentKoch(lungime / 3.0, nivel - 1, p1, v);
+			segmentKoch(lungime / 3.0, nivel - 1, p1, v);
         }
     }
 
@@ -212,9 +213,9 @@ public:
         CVector v3(-sqrt(3.0) / 2.0, 0.5);
         CPunct p3(0.5, -sqrt(3.0) / 2.0);
 
-        segmentKoch(lungime, nivel, p1, v1);
-        segmentKoch(lungime, nivel, p2, v2);
-        segmentKoch(lungime, nivel, p3, v3);
+		segmentKoch(lungime, nivel, p1, v1);
+		segmentKoch(lungime, nivel, p2, v2);
+		segmentKoch(lungime, nivel, p3, v3);
     }
 };
 
@@ -548,43 +549,58 @@ public:
     }
 };
 
+int contor = 0;
+
 class Imagine3
 {
 public:
-    void imagine3(double lungime, int nivel, CPunct& p, CVector& v, int d)
-    {
-        vector<int> threshold_arr = { 3, 4, 3, 2, 4, 2};
-        int counter = 1, current_index = 0;
-        if (nivel == 0)
-        {
-            v.deseneaza(p, lungime);
-            p = v.getDest(p, lungime);
-        }
-        else
-        {
-            imagine3(lungime, 0, p, v, d);
-            for(int i=1; i< pow(3, nivel); i++){
-                v.rotatie(d * 60);
-                v.deseneaza(p, lungime);
-                p = v.getDest(p, lungime);
-                counter++;
-                if (counter >= threshold_arr[current_index % 6]) {
-                    d = -1 * d;
-                    counter = 0;
-                    current_index++;
-                }
-            }
-        }
-    }
+	void segmentSierpinksy(double lungime, int nivel, CPunct& p, CVector v)
+	{
+		CPunct p1;
+		if (nivel == 0)
+		{
+			v.deseneaza(p, lungime);
+		}
+		else
+			if(contor %2 == 0)
+		{
+			v.rotatie(60);
+			segmentSierpinksy(lungime / 2.0, nivel - 1, p, v);
 
-    void afisare(double lungime, int nivel)
-    {
-        CVector v(0.0, 1.0);
-        CPunct p(-0.8, 0.8);
+			p1 = v.getDest(p, lungime / 2.0);
+			v.rotatie(-60);
+			segmentSierpinksy(lungime / 2.0, nivel - 1, p1, v);
 
-        v.rotatie(-180);
-        imagine3(lungime, nivel, p, v, 1);
-    }
+			p1 = v.getDest(p1, lungime / 2.0);
+			v.rotatie(-60);
+			segmentSierpinksy(lungime / 2.0, nivel - 1, p1, v);
+
+			contor++;
+			
+		}
+			else {
+				segmentSierpinksy(lungime / 2.0, nivel - 1, p, v);
+
+				p1 = v.getDest(p, lungime / 2.0);
+				v.rotatie(60);
+				segmentSierpinksy(lungime / 2.0, nivel - 1, p1, v);
+
+				p1 = v.getDest(p1, lungime / 2.0);
+				v.rotatie(60);
+				segmentSierpinksy(lungime / 2.0, nivel - 1, p1, v);
+
+				contor++;
+			}
+	}
+
+	void afisare(double lungime, int nivel)
+	{
+
+		CVector v2(0.0, -1.0);
+		CPunct p2(-0.75, sqrt(3.0) / 2.0);
+
+		segmentSierpinksy(lungime, nivel, p2, v2);
+	}
 };
 
 
@@ -773,7 +789,7 @@ void Display6() {
 
 void Display7() {
     Imagine3 img3;
-    img3.afisare(0.05, nivel);
+    img3.afisare(sqrt(3), nivel);
 
 
     char c[3];
@@ -808,6 +824,7 @@ void Display(void)
     case '0':
         glClear(GL_COLOR_BUFFER_BIT);
         nivel = 0;
+		contor = 0;
         fprintf(stderr, "nivel = %d\n", nivel);
         break;
     case '1':
@@ -864,6 +881,7 @@ void MouseFunc(int button, int state, int x, int y)
 
 int main(int argc, char** argv)
 {
+
     glutInit(&argc, argv);
 
     glutInitWindowSize(dim, dim);
