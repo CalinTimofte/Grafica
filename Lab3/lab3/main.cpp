@@ -11,6 +11,7 @@ public:
 
 	GrilaCarteziana(int linie, int coloana);
 	void writePixel(int linie, int coloana);
+	void afisareSegmentDreapta3(int x0, int y0, int xf, int yf);
 };
 
 GrilaCarteziana::GrilaCarteziana(int linie, int coloana)
@@ -20,22 +21,76 @@ GrilaCarteziana::GrilaCarteziana(int linie, int coloana)
 	this->ratie = 2 / (float)(coloana + 1);
 }
 
-//functie de desenare pixel sub forma de cerc, nu-mi dau seama de formule si de unde sa incep
+//functie de desenare pixel sub forma de cerc, deocamdata romb
 void GrilaCarteziana::writePixel(int linie, int coloana) {
 	
-	float ratiePixel = ratie / 3;
-	float coloanaDesen = (-1) + coloana * ratie;
-	float linieDesen = (-1) + linie * ratie;
+	float ratiePixel = ratie / 4;
+	float coloanaDesen;
+	if (coloana < this->coloana/2)
+		coloanaDesen = -((coloana * ratie - ratie)+1);
+	else
+		coloanaDesen = (coloana * ratie - ratie)-1 ;
+	std::cout << coloanaDesen;
+	float linieDesen;
+	if (linie < this->linie / 2)
+		linieDesen = ((linie * ratie - ratie)+1);
+	else
+		linieDesen = -((linie * ratie-ratie) -1) ;
+	std::cout << linieDesen;
+	
+	float theta = 2 * 3.1415926 / (float)(200);
+	float c = cosf(theta);
+	float s = sinf(theta);
+	float t;
+
+	float x = ratiePixel;
+	float y = 0;
+	/*glBegin(GL_POLYGON);
+	for (int i = 0; i <= 200; i ++) {
+		glVertex2f(x+coloanaDesen, y+linieDesen);
+		t = x;
+		x = c * x - s * y;
+		y = s * x + c * y;
+	}*/
 	glBegin(GL_POLYGON);
-	for (float i = coloanaDesen - ratiePixel; i < coloanaDesen + ratiePixel; i += 0.002) {
-		glVertex2f(i, linieDesen - i);
+	float i, j;
+	for (i = coloanaDesen - ratiePixel, j = linieDesen; i <= coloanaDesen, j<= linieDesen+ratiePixel; i += 0.002, j+=0.002) {
+		glVertex2f(i, j);
+	}
+	
+	for (i = coloanaDesen , j = linieDesen+ratiePixel; i <= coloanaDesen + ratiePixel, j >= linieDesen; i += 0.002, j -= 0.002) {
+		glVertex2f(i, j);
+	}
+	for (i = coloanaDesen + ratiePixel, j = linieDesen; i >= coloanaDesen, j >= linieDesen - ratiePixel; i -= 0.002, j -= 0.002) {
+		glVertex2f(i, j);
+	}
+
+	for (i = coloanaDesen, j = linieDesen-ratiePixel; i >= coloanaDesen - ratiePixel, j <= linieDesen; i -= 0.002, j += 0.002) {
+		glVertex2f(i, j);
 	}
 	glEnd();
-	/*glBegin(GL_POLYGON);
-	for (float i = coloanaDesen - ratiePixel; i < coloanaDesen + ratiePixel; i += 0.002) {
-		glVertex2f(i,-i);
+}
+
+// formule de calculat pt (-1,1) pe ox si oy
+// folosit writePixel pentru a desena pixelii cei mai apropiati
+void GrilaCarteziana::afisareSegmentDreapta3(int x0,int y0,int xf,int yf)
+{
+	// valoarea initiala a variabile de decizie
+	// dx, dy sunt constante - a se vedea mai sus
+	int dx = xf - x0;
+	int dy = yf - y0;
+	int d = 2 * dy - dx;
+	int dE = 2 * dy;
+	int dNE = 2 * (dy - dx);
+	int x = x0, y = y0;
+	glBegin(GL_LINE_STRIP);
+	while (x < xf)
+	{
+		if (d <= 0) { /* alegem E */ d += dE; x++; }
+		else { /* alegem NE */ d += dNE; x++; y++; }
+		glVertex2d(x, y);
 	}
-	glEnd();*/
+	glEnd();
 }
 
 void Display1() {
@@ -54,7 +109,7 @@ void Display1() {
 		glVertex2f(1-ratie, i);
 		glEnd();
 	}
-	grilacarteziana.writePixel(3, 3);
+	grilacarteziana.afisareSegmentDreapta3(0, 0,10,10);
 }
 
 void Display(void) {
