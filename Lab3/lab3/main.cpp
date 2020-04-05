@@ -11,7 +11,7 @@ public:
 
 	GrilaCarteziana(int linie, int coloana);
 	void writePixel(int linie, int coloana);
-	void afisareSegmentDreapta3(int x0, int y0, int xf, int yf);
+	void afisareSegmentDreapta3(float x0, float y0, float xf, float yf);
 };
 
 GrilaCarteziana::GrilaCarteziana(int linie, int coloana)
@@ -21,7 +21,6 @@ GrilaCarteziana::GrilaCarteziana(int linie, int coloana)
 	this->ratie = 2 / (float)(coloana + 1);
 }
 
-//functie de desenare pixel sub forma de cerc, deocamdata romb
 void GrilaCarteziana::writePixel(int linie, int coloana) {
 	
 	float ratiePixel = ratie / 4;
@@ -71,23 +70,39 @@ void GrilaCarteziana::writePixel(int linie, int coloana) {
 	glEnd();
 }
 
-// formule de calculat pt (-1,1) pe ox si oy
 // folosit writePixel pentru a desena pixelii cei mai apropiati
-void GrilaCarteziana::afisareSegmentDreapta3(int x0,int y0,int xf,int yf)
+void GrilaCarteziana::afisareSegmentDreapta3(float x0, float y0, float xf, float yf)
 {
+	if (x0 < this->coloana / 2)
+		x0 = -((coloana * ratie - ratie) + 1);
+	else
+		x0 = (coloana * ratie - ratie) - 1;
+	if (y0 < this->linie / 2)
+		y0 = ((linie * ratie - ratie) + 1);
+	else
+		y0 = -((linie * ratie - ratie) - 1);
+
+	if (xf < this->coloana / 2)
+		xf = -((coloana * ratie - ratie) + 1);
+	else
+		xf = (coloana * ratie - ratie) - 1;
+	if (yf < this->linie / 2)
+		yf = ((linie * ratie - ratie) + 1);
+	else
+		yf = -((linie * ratie - ratie) - 1);
 	// valoarea initiala a variabile de decizie
 	// dx, dy sunt constante - a se vedea mai sus
-	int dx = xf - x0;
-	int dy = yf - y0;
-	int d = 2 * dy - dx;
-	int dE = 2 * dy;
-	int dNE = 2 * (dy - dx);
-	int x = x0, y = y0;
+	float dx = fabs(xf - x0);
+	float dy = fabs(yf - y0);
+	float d = 2 * dy - dx;
+	float dE = 2 * dy;
+	float dNE = 2 * (dy - dx);
+	float x = x0, y = y0;
 	glBegin(GL_LINE_STRIP);
 	while (x < xf)
 	{
-		if (d <= 0) { /* alegem E */ d += dE; x++; }
-		else { /* alegem NE */ d += dNE; x++; y++; }
+		if (d <= 0) { /* alegem E */ d += dE; x+=0.02; }
+		else { /* alegem NE */ d += dNE; x += 0.02; y += 0.02; }
 		glVertex2d(x, y);
 	}
 	glEnd();
