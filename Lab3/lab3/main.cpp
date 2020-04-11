@@ -11,7 +11,9 @@ public:
 
 	GrilaCarteziana(int linie, int coloana);
 	void writePixel(int linie, int coloana);
-	void afisareSegmentDreapta3(float x0, float y0, float xf, float yf);
+	void afisarePuncteCerc(int x, int y);
+	void umplereElipsa(int x0, int y0, int a, int b, double val);
+	void afisareCerc(int raza);
 };
 
 GrilaCarteziana::GrilaCarteziana(int linie, int coloana)
@@ -23,13 +25,14 @@ GrilaCarteziana::GrilaCarteziana(int linie, int coloana)
 
 void GrilaCarteziana::writePixel(int linie, int coloana) {
 	
-	float ratiePixel = ratie / 4;
-	float coloanaDesen = (coloana * ratie + ratie) - 1;
-	float linieDesen = 1 - (linie * ratie + ratie);
+	std::cout << linie << " " << coloana << std::endl;
+	float ratiePixel = ratie / 3;
+	float coloanaDesen = -1+(coloana * ratie + ratie) ;
+	float linieDesen = -1+(linie * ratie + ratie);
 
 
-	std::cout << coloanaDesen;
-	std::cout << linieDesen;
+	std::cout << coloanaDesen << std::endl;
+	std::cout << linieDesen << std::endl;
 
 	glBegin(GL_POLYGON);
 	float i, j;
@@ -50,42 +53,83 @@ void GrilaCarteziana::writePixel(int linie, int coloana) {
 	glEnd();
 }
 
-// folosit writePixel pentru a desena pixelii cei mai apropiati
-void GrilaCarteziana::afisareSegmentDreapta3(float x0, float y0, float xf, float yf)
-{
-	if (x0 < this->coloana / 2)
-		x0 = -((coloana * ratie - ratie) + 1);
-	else
-		x0 = (coloana * ratie - ratie) - 1;
-	if (y0 < this->linie / 2)
-		y0 = ((linie * ratie - ratie) + 1);
-	else
-		y0 = -((linie * ratie - ratie) - 1);
-
-	if (xf < this->coloana / 2)
-		xf = -((coloana * ratie - ratie) + 1);
-	else
-		xf = (coloana * ratie - ratie) - 1;
-	if (yf < this->linie / 2)
-		yf = ((linie * ratie - ratie) + 1);
-	else
-		yf = -((linie * ratie - ratie) - 1);
-	// valoarea initiala a variabile de decizie
-	// dx, dy sunt constante - a se vedea mai sus
-	float dx = fabs(xf - x0);
-	float dy = fabs(yf - y0);
-	float d = 2 * dy - dx;
-	float dE = 2 * dy;
-	float dNE = 2 * (dy - dx);
-	float x = x0, y = y0;
-	glBegin(GL_LINE_STRIP);
-	while (x < xf)
-	{
-		if (d <= 0) { /* alegem E */ d += dE; x+=0.02; }
-		else { /* alegem NE */ d += dNE; x += 0.02; y += 0.02; }
-		glVertex2d(x, y);
+void GrilaCarteziana::afisarePuncteCerc(int x, int y) {
+	writePixel(x, y);
+	writePixel(x, y - 1);
+	writePixel(x, y + 1);
+	if (x != y) {
+		writePixel(x, y);
+		writePixel(x, y - 1);
+		writePixel(x, y + 1);
 	}
-	glEnd();
+}
+
+void GrilaCarteziana::umplereElipsa(int x0, int y0, int a, int b, double val)
+{
+	int xi = 0, x = 0, y = b;
+	double fxpyp = 0.0;
+	double deltaE, deltaSE, deltaS;
+	writePixel(y + y0, xi + x0);
+	ssm.vidare();
+	ssm.adauga(y + y0, xi + x0, x + x0);
+
+	//regiunea 1
+	while (a * a * (y - 0.5) > b * b * (x + 1)) {
+		deltaE = b * b * (2 * x + 1);
+		deltaSE = b * b * (2 * x + 1) + a * a * (-2 * y + 1);
+		if (fxpyp + deltaE <= 0.0) {
+			fxpyp += deltaE;
+			x++;
+			ssm.setare(y + y0, xi + x0, x + x0);
+			//writePixel(y + y0, xi + x0);
+		}
+		else if (fxpyp + deltaSE < 0.0) {
+			fxpyp += deltaSE;
+			x++;
+			y--;
+			ssm.adauga(y + y0, xi + x0, x + x0);
+			//writePixel(y + y0, xi + x0);
+		}
+	}
+
+	//regiunea 2
+	while (y > 0) {
+		deltaSE = b * b * (2 * x + 1) + a * a * (-2 * y + 1);
+		deltaS = a * a * (-2 * y + 1);
+		if (fxpyp + deltaSE <= 0.0) {
+			fxpyp += deltaSE;
+			x++;
+			y--;
+		}
+		else {
+			fxpyp += deltaS;
+			y--;
+		}
+		ssm.adauga(y + y0, xi + x0, x + x0);
+	}
+	ssm.desenare(val, *this, sablon);
+}
+
+void GrilaCarteziana::afisareCerc(int r) {
+	int x = 0, y = r;
+	double d = 1 - r;
+	int dE = 3, dSE = -2 * r + 5;
+	afisarePuncteCerc(x, y);
+	while (y > x) {
+		if (d < 0) {
+			d += dE;
+			dE += 2;
+			dSE += 2;
+		}
+		else {
+			d += dSE;
+			dE += 2;
+			dSE += 4;
+			y--;
+		}
+		x++;
+		afisarePuncteCerc(x, y);
+	}
 }
 
 void Display1() {
@@ -104,7 +148,7 @@ void Display1() {
 		glVertex2f(1-ratie, i);
 		glEnd();
 	}
-	grilacarteziana.writePixel(15, 0);
+	grilacarteziana.umplereElipsa(0,0,4,7,0);
 }
 
 void Display(void) {
