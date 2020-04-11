@@ -24,33 +24,13 @@ GrilaCarteziana::GrilaCarteziana(int linie, int coloana)
 void GrilaCarteziana::writePixel(int linie, int coloana) {
 	
 	float ratiePixel = ratie / 4;
-	float coloanaDesen;
-	if (coloana < this->coloana/2)
-		coloanaDesen = -((coloana * ratie - ratie)+1);
-	else
-		coloanaDesen = (coloana * ratie - ratie)-1 ;
-	std::cout << coloanaDesen;
-	float linieDesen;
-	if (linie < this->linie / 2)
-		linieDesen = ((linie * ratie - ratie)+1);
-	else
-		linieDesen = -((linie * ratie-ratie) -1) ;
-	std::cout << linieDesen;
-	
-	float theta = 2 * 3.1415926 / (float)(200);
-	float c = cosf(theta);
-	float s = sinf(theta);
-	float t;
+	float coloanaDesen = (coloana * ratie + ratie) - 1;
+	float linieDesen = 1 - (linie * ratie + ratie);
 
-	float x = ratiePixel;
-	float y = 0;
-	/*glBegin(GL_POLYGON);
-	for (int i = 0; i <= 200; i ++) {
-		glVertex2f(x+coloanaDesen, y+linieDesen);
-		t = x;
-		x = c * x - s * y;
-		y = s * x + c * y;
-	}*/
+
+	std::cout << coloanaDesen;
+	std::cout << linieDesen;
+
 	glBegin(GL_POLYGON);
 	float i, j;
 	for (i = coloanaDesen - ratiePixel, j = linieDesen; i <= coloanaDesen, j<= linieDesen+ratiePixel; i += 0.002, j+=0.002) {
@@ -124,7 +104,7 @@ void Display1() {
 		glVertex2f(1-ratie, i);
 		glEnd();
 	}
-	grilacarteziana.afisareSegmentDreapta3(0, 0,10,10);
+	grilacarteziana.writePixel(15, 0);
 }
 
 void Display(void) {
