@@ -1,0 +1,8 @@
+﻿  Source.cpp
+D:\Work\Grafica\tema4\tema4\tema4\Source.cpp(51,20): warning C4018: '<': signed/unsigned mismatch
+D:\Work\Grafica\tema4\tema4\tema4\Source.cpp(87,20): warning C4018: '<': signed/unsigned mismatch
+D:\Work\Grafica\tema4\tema4\tema4\Source.cpp(93,21): warning C4018: '<': signed/unsigned mismatch
+D:\Work\Grafica\tema4\tema4\tema4\Source.cpp(115,20): warning C4018: '<': signed/unsigned mismatch
+D:\Work\Grafica\tema4\tema4\tema4\Source.cpp(128,21): warning C4018: '<': signed/unsigned mismatch
+D:\Work\Grafica\tema4\tema4\tema4\Source.cpp(147,21): warning C4018: '<': signed/unsigned mismatch
+  tema4.vcxproj -> D:\Work\Grafica\tema4\tema4\Debug\tema4.exe
