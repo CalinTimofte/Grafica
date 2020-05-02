@@ -8,8 +8,7 @@
 #define dim 300
 
 unsigned char prevKey;
-
-enum EObiect { cubw, cubs, sferaw, sferas } ob = cubw;
+enum EObiect { cubw, cubs, sferaw, sferas, triangle, cube } ob = cubw;
 
 void DisplayAxe() {
 	int X, Y, Z;
@@ -66,6 +65,58 @@ void Display4() {
 	glutSolidSphere(1, 10, 10);
 }
 
+// triunghi
+void Display5() {
+	glPushMatrix();
+	glClear(GL_COLOR_BUFFER_BIT);
+	glTranslatef(-2, 0, 0);
+	glTranslatef(0, -0.5f, 0);
+	glRotated(30, 0,  1, 0);
+	glRotated(90, 0, 0, 1);
+	glColor3f(1, 0, 0);
+	glBegin(GL_TRIANGLES);
+
+	glVertex3f(0.5f, 0.5f, 5.0f);
+	glVertex3f(1.0f, 1.5f, 4.0f);
+	glVertex3f(1.5f, 0.5f, 5.0f);
+
+	glEnd();
+
+	DisplayAxe();
+}
+
+void Display6() {
+	glRotated(45, 1, 0, 1);
+
+	glColor3f(1, 0, 0);
+	glBegin(GL_QUADS);
+
+	glVertex3f(0, 0, 1.0f);
+	glVertex3f(1, 0, 1.0f);
+	glVertex3f(1, 1, 1.0f);
+	glVertex3f(0, 1, 1.0f);
+	glEnd();
+
+	glColor3f(0, 1, 0);
+	glBegin(GL_QUADS);
+
+	glVertex3f(1, 0, 1.0f);
+	glVertex3f(1, 0, 0.0f);
+	glVertex3f(1, 1, 0.0f);
+	glVertex3f(1, 1, 1.0f);
+	glEnd();
+
+	glColor3f(0, 0, 1);
+	glBegin(GL_QUADS);
+
+	glVertex3f(0, 1, 0.0f);
+	glVertex3f(0, 1, 1.0f);
+	glVertex3f(1, 1, 1.0f);
+	glVertex3f(1, 1, 0.0f);
+	glEnd();
+	
+}
+
 void DisplayObiect()
 {
 	switch (ob)
@@ -81,6 +132,12 @@ void DisplayObiect()
 		break;
 	case sferas:
 		Display4();
+		break;
+	case triangle:
+		Display5();
+		break;
+	case cube:
+		Display6();
 		break;
 	default:
 		break;
@@ -159,6 +216,14 @@ void Display(void) {
 	case '4':
 		Display4();
 		ob = sferas;
+		break;
+	case '5':
+		Display5();
+		ob = triangle;
+		break;
+	case '6':
+		Display6();
+		ob = cube;
 		break;
 	case 'x':
 		glClear(GL_COLOR_BUFFER_BIT);
