@@ -85,6 +85,7 @@ void Display5() {
 	DisplayAxe();
 }
 
+// rotatie cub
 void Display6() {
 	glRotated(45, 1, 0, 1);
 
