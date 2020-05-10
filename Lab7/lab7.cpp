@@ -122,10 +122,35 @@ void Display()
 
 	case 'm':
 		//proiectie perspectiva
+		//img 2
 		proiectiePerspectiva('m');
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glPushMatrix();
+		glScaled(1, -1, 1);
+		glScaled(0.1, 0.1, 0.1);
+		glRotated(-160, 1, 0, 0);
+		glRotated(-20, 0, 1, 0);
+		DisplayAxe();
+		DisplayObiect();
+		glPopMatrix();
 		break;
 	case 'n':
+		//img 3
 		proiectiePerspectiva('n');
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glPushMatrix();
+		glTranslated(0, 0, -lat);
+		glScaled(0.3, 0.3, 0.3);
+		glRotated(25, 1, 0, 0);
+		glRotated(-25, 0, 1, 0);
+		glTranslated(0, 0, lat/ 1.3);
+		DisplayAxe();
+		DisplayObiect();
+		glPopMatrix();
 		break;
 	default:
 		break;
